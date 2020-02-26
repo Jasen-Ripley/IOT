@@ -14,7 +14,7 @@ WiFiClient client;
 PubSubClient mqttclient(client);
 
 #define SENSOR A0
-#define LED D0
+#define LED 5
 void callback (char* topic, byte* payload, unsigned int length){
   payload[length] = '\0';
   if(strcmp((char *)payload, "on") == 0){
@@ -70,7 +70,8 @@ void loop() {
   {
     lastRefreshTime += REFRESH_INTERVAL;
     lightstate = analogRead(A0);
-    mqttclient.publish("/sensor", String(lightstate).c_str(), false);
+    mqttclient.publish("/light", String(lightstate).c_str(), false);
+    Serial.println(analogRead(A0));
   }
 }
 
